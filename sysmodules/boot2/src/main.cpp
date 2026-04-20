@@ -14,52 +14,50 @@
 #include "hk/util/Span.h"
 #include "hk/util/Storage.h"
 
-// namespace blurp::boot2 {
-//     hk::util::Storage<hk::fsp::IFileSystem> sdCard;
-//     hk::Result initialize() {
-//         HK_UNWRAP(hk::sm::ServiceManager::initialize());
+namespace blurp::boot2 {
+    hk::util::Storage<hk::fsp::IFileSystem> sdCard;
+    hk::Result initialize() {
+        HK_UNWRAP(hk::sm::ServiceManager::initialize());
 
-//         HK_UNWRAP(hk::fsp::FileSystemProxy::initialize());
-//         // sdCard.create(HK_TRY(hk::fsp::FileSystemProxy::instance()->openSdCardFileSystem()));
-//         // // const char str[] = "hello from boot2";
-//         // // sdCard.get()->createFile("boot2.txt", sizeof(str), 0);
-//         // // sdCard.get()->openFile("boot2.txt", sizeof(str), 0);
+        HK_UNWRAP(hk::fsp::FileSystemProxy::initialize());
+        // sdCard.create(HK_TRY(hk::fsp::FileSystemProxy::instance()->openSdCardFileSystem()));
+        // // const char str[] = "hello from boot2";
+        // // sdCard.get()->createFile("boot2.txt", sizeof(str), 0);
+        // // sdCard.get()->openFile("boot2.txt", sizeof(str), 0);
 
-//         HK_UNWRAP(hk::pm::ProcessManagerForShell::initialize());
-//         HK_UNWRAP(hk::pm::ProcessManagerBootMode::initialize());
-//         HK_UNWRAP(hk::settings::SystemSettings::initialize());
-//         // HK_UNWRAP(hk::ldr::LoaderProcessManagerInfo::initialize());
+        HK_UNWRAP(hk::pm::ProcessManagerForShell::initialize());
+        HK_UNWRAP(hk::pm::ProcessManagerBootMode::initialize());
+        HK_UNWRAP(hk::settings::SystemSettings::initialize());
+        // HK_UNWRAP(hk::ldr::LoaderProcessManagerInfo::initialize());
 
-//         return hk::ResultSuccess();
-//     }
+        return hk::ResultSuccess();
+    }
 
-//     void finalize() {
-//         hk::settings::SystemSettings::deleteInstance();
-//     }
+    void finalize() {
+        hk::settings::SystemSettings::deleteInstance();
+    }
 
-//     void launchProgram(hk::ncm::ProgramLocation location) {
-//         // auto shell = hk::pm::ProcessManagerForShell::instance();
+    void launchProgram(hk::ncm::ProgramLocation location) {
+        // auto shell = hk::pm::ProcessManagerForShell::instance();
 
-//         // shell->launchProgram(hk::pm::LaunchFlags_DisableAslr, hk::ncm::ProgramLocation())
-//     }
+        // shell->launchProgram(hk::pm::LaunchFlags_DisableAslr, hk::ncm::ProgramLocation())
+    }
 
-//     hk::Result postBoot() {
-//         if (false) { // IsMaintenanceMode() - check settings and gpio
-//             hk::pm::ProcessManagerBootMode::instance()->setMaintenanceMode();
-//         }
+    hk::Result postBoot() {
+        if (false) { // IsMaintenanceMode() - check settings and gpio
+            hk::pm::ProcessManagerBootMode::instance()->setMaintenanceMode();
+        }
 
-//         // launchProgram(hk::ncm::dmntGen2);
-//         // launchProgram(hk::ncm::tma);
+        // launchProgram(hk::ncm::dmntGen2);
+        // launchProgram(hk::ncm::tma);
 
-//         return hk::ResultSuccess();
-//     }
-// }
+        return hk::ResultSuccess();
+    }
+}
 
 hk::Result blurp::main() {
-    // hk::diag::logLine("heloo");
-    // HK_ABORT_UNLESS_R(boot2::initialize());
-    hk::util::FixedString<16> awesome("hello world %d", 16);
-    hk::util::FixedString<16> pawsome = awesome;
+    hk::diag::logLine("starting boot");
+    HK_ABORT_UNLESS_R(boot2::initialize());
     // for (int i = 0; i < 5; i++) {
     //     auto enabled = HK_UNWRAP(hk::settings::SystemSettings::instance()->getSettingsItemValue<bool, false>("atmosphere", "enable_standalone_gdbstub"));
     //     hk::diag::logLine("enabled: %d", enabled);
@@ -71,8 +69,8 @@ hk::Result blurp::main() {
     //     hk::diag::logLine("my cool log output dir: %s", (char*)str.begin());
     // }
 
-    // blurp::boot2::finalize();
+    blurp::boot2::finalize();
 
-    // hk::diag::logLine("done!");
+    hk::diag::logLine("done booting!");
     hk::svc::ExitProcess();
 }

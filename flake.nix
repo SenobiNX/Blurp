@@ -65,8 +65,7 @@
                   llvmPackages_20.clang-unwrapped.lib
                 ];
                 NIX_CC_WRAPPER_SUPPRESS_TARGET_WARNING = true;
-                CC = "clang";
-                CXX = "clang++";
+                
               };
         };
       }
